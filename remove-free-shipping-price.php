@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Remove Free Shipping Price
  * Description: Remove price from shipping when it's free
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Santiago Botero
  * Author URI: https://www.boterop.io
  * Text Domain: remove-free-shipping-price
@@ -12,13 +12,18 @@
 
 function change_shipping_script()
 {
-    $free = "Gratis!";
+    $free = "<strong>Gratis!</strong>";
     return 'document.addEventListener("DOMContentLoaded", () => {
-        let cartTotals = document.getElementsByClassName("cart_totals ").item(0);
-        let shippingTotals = cartTotals.getElementsByClassName("shipping ").item(0);
-        let calculateShippingText = shippingTotals.children[1].children[0];
-        calculateShippingText.innerHTML = "' . $free . '";
-    });';
+        try {
+          let cartTotals = document.getElementsByClassName("cart_totals ").item(0);
+          let shippingTotals = cartTotals.getElementsByClassName("shipping ").item(0);
+          let calculateShippingText = shippingTotals.children[1].children[0];
+          calculateShippingText.innerHTML = "' . $free . '";
+        } catch (error) {
+          console.log("Error price: ");
+        }
+      });
+      ';
 }
 
 function remove_price()
