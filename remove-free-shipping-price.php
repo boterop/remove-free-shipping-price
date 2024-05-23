@@ -37,13 +37,6 @@ function get_cart_item_data($data, $cartItem)
 
     return $data;
 }
-function filter_woocommerce_update_cart_action_cart_updated($cart_updated)
-{
-    remove_price();
 
-    return $cart_updated;
-}
-
-add_filter('woocommerce_update_cart_action_cart_updated', 'filter_woocommerce_update_cart_action_cart_updated', 10, 1);
 add_filter('woocommerce_get_item_data', 'get_cart_item_data', 10, 2);
 ?>
