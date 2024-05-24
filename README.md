@@ -1,3 +1,12 @@
+Contributors:      boterop
+Requires at least: 6.3
+Tested up to:      6.4
+Requires PHP:      7.0
+Stable tag:        1.0.1
+License:           GPLv2 or later
+License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+Tags:              plugin best practices, testing, accessibility, performance, security
+
 <div align="center">
   <img src="https://img.shields.io/github/v/release/boterop/remove-free-shipping-price" />
 </div>
