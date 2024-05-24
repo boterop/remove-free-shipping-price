@@ -1,3 +1,5 @@
+=== Remove Free Shipping Price ===
+
 Contributors:      boterop
 Requires at least: 6.3
 Tested up to:      6.4
