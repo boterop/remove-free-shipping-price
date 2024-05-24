@@ -26,6 +26,15 @@ function change_shipping_script()
       ';
 }
 
+function get_user_geo_country()
+{
+  $geo = new WC_Geolocation();
+  $user_ip = $geo->get_ip_address();
+  $user_geo = $geo->geolocate_ip($user_ip);
+  $country_code = $user_geo['country'];
+  return WC()->countries->countries[$country_code];
+}
+
 function get_free_shipping_min_value($zone_name = 'Colombia')
 {
   $result = 75000;
@@ -61,7 +70,8 @@ function remove_price()
 {
   global $woocommerce;
   $order_total = $woocommerce->cart->get_subtotal();
-  $free_shipping = get_free_shipping_min_value("Colombia");
+  $user_geo = get_user_geo_country();
+  $free_shipping = get_free_shipping_min_value($user_geo);
   if ($order_total >= $free_shipping) {
     echo "<script>console.log('Removing shipping price...' );</script>";
     echo "<script>" . change_shipping_script() . "</script>";
