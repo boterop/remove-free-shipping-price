@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Remove Free Shipping Price
  * Description: Remove price from shipping when it's free
- * Version: 1.0.1
+ * Version: 1.1.0
  * Author: Santiago Botero
  * Author URI: https://www.boterop.io
  * Text Domain: remove-free-shipping-price
