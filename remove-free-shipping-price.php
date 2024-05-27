@@ -10,22 +10,6 @@
  * License URI: https://opensource.org/license/mit
  */
 
-function change_shipping_script()
-{
-  $free = "<strong>Gratis!</strong>";
-  return 'document.addEventListener("DOMContentLoaded", () => {
-        try {
-          let cartTotals = document.getElementsByClassName("cart_totals ").item(0);
-          let shippingTotals = cartTotals.getElementsByClassName("shipping ").item(0);
-          let calculateShippingText = shippingTotals.children[1].children[0];
-          calculateShippingText.innerHTML = "' . $free . '";
-        } catch (error) {
-          console.log("Shipping price not found.");
-        }
-      });
-      ';
-}
-
 function get_user_geo_country()
 {
   $geo = new WC_Geolocation();
@@ -74,7 +58,43 @@ function remove_price()
   $free_shipping = get_free_shipping_min_value($user_geo);
   if ($order_total >= $free_shipping) {
     echo "<script>console.log('Removing shipping price...' );</script>";
-    echo "<script>" . change_shipping_script() . "</script>";
+    echo '<script>
+    document.addEventListener("DOMContentLoaded", () => {
+      setFreeShippingPrice();
+    });
+    
+    const setFreeShippingPrice = () => {
+      try {
+        let cartTotals = document.getElementsByClassName("cart_totals ").item(0);
+        let shippingTotals = cartTotals.getElementsByClassName("shipping ").item(0);
+        let calculateShippingText = shippingTotals.children[1].children[0];
+        calculateShippingText.innerHTML = "<strong>Gratis!</strong>";
+    
+        setTimeout(() => persist(" . free_shipping . "), 1000);
+      } catch (error) {
+        console.log("Shipping price not found.");
+      }
+    };
+    
+    const persist = (minAmount) => {
+      try {
+        let shippingPrice = shippingTotals
+          .getElementsByClassName("woocommerce-Price-amount amount")
+          .item(0).children[0].children[1];
+        let price = parseInt(shippingPrice.innerHTML.replace(".", ""));
+        if (price >= minAmount) {
+          setFreeShippingPrice();
+        } else {
+          setTimeout(() => {
+            persist(minAmount);
+          }, 2000);
+        }
+      } catch (error) {
+        console.log("Error persisting free shipping price.");
+      }
+    };
+    
+    </script>';
   }
 }
 
